@@ -4,12 +4,13 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import { Table } from "antd";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 import moment from "moment";
 
 const DoctorsList = () => {
 	const [doctors, setDoctors] = useState([]);
 	const dispatch = useDispatch();
+
 	const getDoctorsData = async () => {
 		try {
 			dispatch(showLoading());
@@ -26,6 +27,7 @@ const DoctorsList = () => {
 			dispatch(hideLoading());
 		}
 	};
+
 
 	const changeDoctorStatus = async (record, status) => {
 		try {
@@ -45,14 +47,12 @@ const DoctorsList = () => {
 				getDoctorsData();
 			}
 		} catch (error) {
-			toast.error('Error change doctor account status');
+			toast.error("Error change doctor account status");
 			dispatch(hideLoading());
 		}
 	};
 
-	useEffect(() => {
-		getDoctorsData();
-	});
+
 	const columns = [
 		{
 			title: "Name",
@@ -99,6 +99,11 @@ const DoctorsList = () => {
 			),
 		},
 	];
+
+
+	useEffect(() => {
+		getDoctorsData();
+	}, []);
 	return (
 		<Layout>
 			<h1 className='page-header'>DoctorsList</h1>
