@@ -106,7 +106,7 @@ const BookAppointment = () => {
 
 	useEffect(() => {
 		getDoctorData();
-	});
+	}, []);
 	return (
 		<Layout>
 			{doctor && (

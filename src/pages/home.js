@@ -33,12 +33,12 @@ const Home = () => {
 		getData();
 	}, []);
 
-	return(
+	return (
 		<Layout>
 			<Row gutter={20}>
-				{doctors.map((doctor) => (
-					<Col span={8} xs={24} sm={24} lg={8} >
-						<Doctor doctor={doctor}/>
+				{doctors.map((doctor, key) => (
+					<Col span={8} xs={24} sm={24} lg={8} key={key}>
+						<Doctor doctor={doctor} />
 					</Col>
 				))}
 			</Row>

@@ -54,7 +54,7 @@ function Layout({ children }) {
 			icon: "ri-home-line",
 		},
 		{
-			name: "users",
+			name: "Users",
 			path: "/admin/userslist",
 			icon: "ri-user-line",
 		},
@@ -63,11 +63,7 @@ function Layout({ children }) {
 			path: "/admin/doctorslist",
 			icon: "ri-hospital-line",
 		},
-		{
-			name: "Profile",
-			path: "/profile",
-			icon: "ri-user-line",
-		},
+		
 	];
 
 	const menuToBeRendered = user?.isAdmin ? adminMenu : user?.isDoctor ? doctorMenu : userMenu;
@@ -129,7 +125,7 @@ function Layout({ children }) {
 								onClick={() => navigate("/notifications")}>
 								<i className='ri-notification-line header-action-icon px-3'></i>
 							</Badge>
-							<Link className='anchor mx-2' to='/profile'>
+							<Link className='anchor mx-2' to='/'>
 								{user?.name}
 							</Link>
 						</div>

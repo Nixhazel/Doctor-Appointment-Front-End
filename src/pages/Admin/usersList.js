@@ -33,7 +33,7 @@ const UsersList = () => {
 
   useEffect(() => {
     getUsersData();
-  });
+  }, []);
   const columns = [
 		{
 			title: "Name",

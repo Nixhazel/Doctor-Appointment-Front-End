@@ -15,7 +15,7 @@ const Notifications = () => {
 
 	const markAllAsSeen = async () => {
 		try {
-			console.log(user);
+			// console.log(user);
 			dispatch(showLoading());
 			const response = await axios.post(
 				"/users/mark-all-notifications-as-seen",
@@ -39,7 +39,7 @@ const Notifications = () => {
 
 	const deleteAll = async () => {
 		try {
-			console.log(user);
+			// console.log(user);
 			dispatch(showLoading());
 			const response = await axios.post(
 				"/users/delete-all-notifications",
