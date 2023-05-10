@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import { useDispatch } from "react-redux";
 import axios from "axios";
@@ -11,22 +11,22 @@ const DoctorsList = () => {
 	const [doctors, setDoctors] = useState([]);
 	const dispatch = useDispatch();
 
-	const getDoctorsData = async () => {
-		try {
-			dispatch(showLoading());
-			const response = await axios.get("/admin/get-all-doctors", {
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
-				},
-			});
-			dispatch(hideLoading());
-			if (response.data.success) {
-				setDoctors(response.data.data);
+	 const getDoctorsData = useCallback(async () => {
+			try {
+				dispatch(showLoading());
+				const response = await axios.get("/admin/get-all-doctors", {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem("token")}`,
+					},
+				});
+				dispatch(hideLoading());
+				if (response.data.success) {
+					setDoctors(response.data.data);
+				}
+			} catch (error) {
+				dispatch(hideLoading());
 			}
-		} catch (error) {
-			dispatch(hideLoading());
-		}
-	};
+		}, [dispatch]);
 
 
 	const changeDoctorStatus = async (record, status) => {
@@ -103,7 +103,7 @@ const DoctorsList = () => {
 
 	useEffect(() => {
 		getDoctorsData();
-	}, []);
+	}, [getDoctorsData]);
 	return (
 		<Layout>
 			<h1 className='page-header'>DoctorsList</h1>

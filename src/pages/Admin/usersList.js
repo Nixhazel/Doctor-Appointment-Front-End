@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Layout from '../../components/Layout';
 import { useEffect } from 'react';
 import { showLoading, hideLoading } from '../../redux/alertsSlice';
@@ -10,30 +10,26 @@ import moment from 'moment';
 const UsersList = () => {
   const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
-  const getUsersData = async () => {
-    try {
-      dispatch(showLoading());
-      const response = await axios.get(
-        "/admin/get-all-users",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      dispatch(hideLoading());
-      if (response.data.success) {
-        setUsers(response.data.data);
-      }
-    } catch (error) {
-      dispatch(hideLoading());
+  const getUsersData = useCallback(async () => {
+		try {
+			dispatch(showLoading());
+			const response = await axios.get("/admin/get-all-users", {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("token")}`,
+				},
+			});
+			dispatch(hideLoading());
+			if (response.data.success) {
+				setUsers(response.data.data);
+			}
+		} catch (error) {
+			dispatch(hideLoading());
+		}
+	}, [dispatch]);
 
-    }
-  };
-
-  useEffect(() => {
-    getUsersData();
-  }, []);
+	useEffect(() => {
+		getUsersData();
+	}, [getUsersData]);
   const columns = [
 		{
 			title: "Name",
