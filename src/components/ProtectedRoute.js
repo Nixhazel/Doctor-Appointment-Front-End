@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useCallback } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ function ProtectedRoute(props) {
 	const { user } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const getUser = async () => {
+	const getUser = useCallback(async () => {
 		try {
 			dispatch(showLoading());
 			const response = await axios.post(
@@ -35,13 +35,13 @@ function ProtectedRoute(props) {
 			localStorage.clear();
 			navigate("/login");
 		}
-	};
+	}, [dispatch, navigate]);
 
 	useEffect(() => {
 		if (!user) {
 			getUser();
 		}
-	}, [user]);
+	}, [user, getUser]);
 
 	if (localStorage.getItem("token")) {
 		return props.children;
