@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "cross-env CI=true react-scripts build",
+    "build": "cross-env CI=true yarn run react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
