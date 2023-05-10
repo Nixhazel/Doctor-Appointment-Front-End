@@ -1,5 +1,5 @@
 import { Button, Col, Row, TimePicker, DatePicker } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -19,7 +19,7 @@ const BookAppointment = () => {
 
 	const dispatch = useDispatch();
 
-	const getDoctorData = async () => {
+	const getDoctorData = useCallback(async () => {
 		try {
 			dispatch(showLoading());
 			const response = await axios.post(
@@ -35,14 +35,13 @@ const BookAppointment = () => {
 			);
 			dispatch(hideLoading());
 			if (response.data.success) {
-			
 				setDoctor(response.data.data);
 			}
 		} catch (error) {
 			console.log(error);
 			dispatch(hideLoading());
 		}
-	};
+	}, [params.doctorId, dispatch]);
 
     const bookNow = async () => {
         setIsAvailable(false);
@@ -106,7 +105,7 @@ const BookAppointment = () => {
 
 	useEffect(() => {
 		getDoctorData();
-	}, []);
+	}, [getDoctorData]);
 	return (
 		<Layout>
 			{doctor && (

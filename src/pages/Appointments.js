@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Layout from "../components/Layout";
 import { showLoading, hideLoading } from "../redux/alertsSlice";
@@ -10,17 +10,14 @@ import moment from "moment";
 const Appointments = () => {
 	const [appointments, setAppointments] = useState([]);
 	const dispatch = useDispatch();
-	const getAppointmentsData = async () => {
+  const getAppointmentsData = useCallback(async () => {
 		try {
 			dispatch(showLoading());
-			const resposne = await axios.get(
-				"/users/get-appointments-by-user-id",
-				{
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem("token")}`,
-					},
-				}
-			);
+			const resposne = await axios.get("/users/get-appointments-by-user-id", {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("token")}`,
+				},
+			});
 			dispatch(hideLoading());
 			if (resposne.data.success) {
 				setAppointments(resposne.data.data);
@@ -28,7 +25,7 @@ const Appointments = () => {
 		} catch (error) {
 			dispatch(hideLoading());
 		}
-	};
+	}, [dispatch]);
 	const columns = [
 		{
 			title: "Id",
@@ -63,9 +60,9 @@ const Appointments = () => {
 			dataIndex: "status",
 		},
 	];
-	useEffect(() => {
-		getAppointmentsData();
-	}, []);
+	  useEffect(() => {
+			getAppointmentsData();
+		}, [getAppointmentsData]);
 	return (
 		<Layout>
 			<h1 className='page-title'>Appointments</h1>

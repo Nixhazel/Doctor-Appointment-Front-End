@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
 import { Col, Row } from "antd";
@@ -9,17 +9,14 @@ import { showLoading, hideLoading } from '../redux/alertsSlice';
 const Home = () => {
 	const [doctors, setDoctors] = useState([]);
 	const dispatch = useDispatch();
-	const getData = async () => {
+	const getData = useCallback(async () => {
 		try {
 			dispatch(showLoading());
-			const response = await axios.get(
-				"/users/get-all-approved-doctors",
-				{
-					headers: {
-						Authorization: "Bearer " + localStorage.getItem("token")
-					}
-				}
-			);
+			const response = await axios.get("/users/get-all-approved-doctors", {
+				headers: {
+					Authorization: "Bearer " + localStorage.getItem("token"),
+				},
+			});
 			dispatch(hideLoading());
 			if (response.data.success) {
 				setDoctors(response.data.data);
@@ -28,10 +25,10 @@ const Home = () => {
 			dispatch(hideLoading());
 			// console.log(error);
 		}
-	};
+	}, [dispatch]);
 	useEffect(() => {
 		getData();
-	}, []);
+	}, [getData]);
 
 	return (
 		<Layout>

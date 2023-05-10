@@ -1,5 +1,5 @@
 // import { Button, Col, Form, Input, Row, TimePicker } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -49,7 +49,7 @@ const Profile = () => {
 		}
 	};
 
-	const getDoctorData = async () => {
+	const getDoctorData = useCallback(async () => {
 		try {
 			dispatch(showLoading());
 			const response = await axios.post(
@@ -71,11 +71,11 @@ const Profile = () => {
 			console.log(error);
 			dispatch(hideLoading());
 		}
-	};
+	}, [params.userId, dispatch]);
 
 	useEffect(() => {
 		getDoctorData();
-	}, [user]);
+	}, [user, getDoctorData]);
 
 	return (
 		<Layout>
